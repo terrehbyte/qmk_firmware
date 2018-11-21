@@ -14,15 +14,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* This is the default ANSI layout provided by the KBP V60 Type R
-* as depicted in their manual and on the stock keycaps.
-*/
 #include QMK_KEYBOARD_H
 
-#define KC_LSUP KC_LALT
-#define KC_RSUP KC_RALT
-#define KC_AL_L KC_LGUI
-#define KC_AL_R KC_RGUI
+enum
+{
+  TD_MED_DOWN = 0,
+  TD_MED_UP = 1,
+  TD_MED_TOG = 2
+};
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [TD_MED_DOWN] = ACTION_TAP_DANCE_DOUBLE(KC_VOLD, KC_MEDIA_PREV_TRACK),
+  [TD_MED_UP] = ACTION_TAP_DANCE_DOUBLE(KC_VOLU, KC_MEDIA_NEXT_TRACK),
+  [TD_MED_TOG] = ACTION_TAP_DANCE_DOUBLE(KC_MUTE, KC_MEDIA_PLAY_PAUSE)
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   /* Keymap 0: Default Layer (Qwerty)
@@ -74,17 +79,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |-----------------------------------------------------------|
    * |      |Lft|Dwn|Rig|HUD|SAD|VAD|   |Hme|PgU|   |   | Tog F1 |
    * |-----------------------------------------------------------|
-   * |        |BLD|BLT|BLI|   |VolD|VolU|Mut|End|PgD|Men|        |
+   * |        |BLD|BLT|BLI|   |VolD|VolU|Mut|End|PgD|Men|   Up   |
    * |-----------------------------------------------------------|
    * |    |    |    |                        |    |    |    |    |
    * `-----------------------------------------------------------'
+   * Note the hack for arrow keys: duplicated from layer 1
    */
   [2] = LAYOUT_60_ansi(
          KC_GRV,      KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,   KC_F12,  KC_DEL, \
          KC_CAPS,     KC_TRNS,  KC_UP,    RGB_TOG,  RGB_HUI,  RGB_SAI,  RGB_VAI,   RGB_MOD, KC_PSCR, KC_SLCK, KC_PAUS, KC_TRNS,    KC_TRNS,          KC_INS, \
          KC_TRNS,     KC_LEFT,  KC_DOWN,  KC_RIGHT, RGB_HUD,  RGB_SAD,  RGB_VAD,   KC_TRNS, KC_HOME, KC_PGUP, KC_TRNS, KC_TRNS,          TG(1),          \
-         KC_TRNS,     BL_INC,   BL_STEP,  BL_DEC,  KC_TRNS,  KC_VOLD,   KC_VOLU, KC_MUTE, KC_END,  KC_PGDN,  KC_APP,           KC_TRNS,  \
-         KC_TRNS,     KC_TRNS,  KC_TRNS,            KC_TRNS,                                                           KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS),
+         KC_TRNS,     BL_INC,   BL_STEP,  BL_DEC,  KC_TRNS,   TD(0),    TD(1),     TD(2), KC_END,  KC_PGDN,  KC_APP,           KC_UP,  \
+         KC_TRNS,     KC_TRNS,  KC_TRNS,            KC_TRNS,                                                           KC_UP,  KC_UP, KC_UP, KC_UP),
 
 
   /* Keymap X: Blank Layer

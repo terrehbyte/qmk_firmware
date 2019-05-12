@@ -20,8 +20,13 @@
 
 // remove all animations except static which can't be removed
 #undef RGBLIGHT_ANIMATIONS
-#define RGBLIGHT_EFFECT_CHRISTMAS
+#define RGBLIGHT_EFFECT_BREATHING
+#define RGBLIGHT_EFFECT_RAINBOW_MOOD
 
 // override backlight levels to be six (seems to be the limit?)
 #undef BACKLIGHT_LEVELS
 #define BACKLIGHT_LEVELS 6
+
+#define NO_ACTION_MACRO
+#define NO_ACTION_FUNCTION
+#define NO_ACTION_ONESHOT
